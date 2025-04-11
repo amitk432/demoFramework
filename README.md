@@ -6,16 +6,15 @@ This is a Selenium TestNG-based automation framework for UI testing. It is desig
 
 ```
 demoFramework-master/
-│
-├── pom.xml                     # Maven project file with dependencies
-├── testng.xml                  # TestNG suite configuration
-├── src/
-│   ├── main/java/
-│   │   ├── pages/              # Page Object classes
-│   │   ├── runners/            # Test runner classes
-│   │   ├── steps/              # Step definitions for actions
-│   │   └── utilities/          # Utility/helper classes
-└── .idea/                      # IntelliJ project settings
+│── src/
+│   ├── main/java/utilities/       # Helper classes (WebDriverManager, reporting, etc.)
+│   ├── main/java/pages/           # Page Object Model classes
+│   ├── main/java/steps/           # Step Definitions for Cucumber
+│   ├── main/java/runners/         # Test runners for executing scenarios
+│   ├── test/resources/features/   # Cucumber feature files
+│── test-output/                   # Test reports and logs
+│── pom.xml                         # Maven dependencies and configurations
+
 ```
 
 ## 🚀 Getting Started

@@ -7,6 +7,7 @@ Feature: Demo Project
     Then Push Submit button
     Then Verify error message is displayed
     Then Verify error message text is Your password is invalid!
+    Then Close the browser
 
     Examples:
       | username | password          |

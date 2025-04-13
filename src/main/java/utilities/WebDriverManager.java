@@ -19,7 +19,4 @@ public class WebDriverManager {
             driver.remove();
         }
     }
-
-//    WebDriver driver1 = new ChromeDriver();
-
 }

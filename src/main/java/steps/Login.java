@@ -30,7 +30,7 @@ public class Login {
 
     @Then("Verify new page URL contains {string}")
     public void verify_new_page_url(String testURL) {
-        Assert.assertEquals(loginPage.getcurrentUrl(), testURL);
+        Assert.assertEquals(loginPage.getCurrentUrl(), testURL);
     }
 
     @Then("Verify error message is displayed")

@@ -23,7 +23,6 @@ public class LoginPage extends BasePage {
     private WebElement errorText;
 
     public void enterUsername(String emailID) {
-//        System.out.println(usernameField + " " + emailID);
         sendKeys(usernameField, emailID);
     }
 
@@ -35,11 +34,11 @@ public class LoginPage extends BasePage {
         click(submitButton);
     }
 
-    public String getErrorText(){
+    public String getErrorText() {
         return getText(errorText);
     }
 
-    public boolean verifyErrorText(){
+    public boolean verifyErrorText() {
         return isDisplayed(errorText);
     }
 

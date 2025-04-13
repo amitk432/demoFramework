@@ -27,6 +27,4 @@ public class HomePage extends BasePage {
     public String verifyLoginSuccessText(){
         return getText(loginSuccessText);
     }
-
-
 }

@@ -21,7 +21,7 @@ public class BasePage {
         element.sendKeys(text);
     }
 
-    public String getcurrentUrl() {
+    public String getCurrentUrl() {
         return driver.getCurrentUrl();
     }
 
@@ -32,5 +32,4 @@ public class BasePage {
     public boolean isDisplayed(WebElement element) {
         return element.isDisplayed();
     }
-
 }

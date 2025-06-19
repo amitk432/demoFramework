@@ -10,7 +10,6 @@ public class Connection {
 
     @Given("Open page")
     public void open_page() {
-        WebDriverManager.getDriver().manage().window().maximize();
         WebDriverManager.getDriver().get(BASE_URL);
     }
 

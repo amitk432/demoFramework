@@ -5,7 +5,7 @@ import io.cucumber.testng.CucumberOptions;
 
 @CucumberOptions(
         features = "src/test/resources/features/",
-        glue = "steps",
+        glue = {"steps", "utilities"},
         plugin = {"pretty", "html:target/cucumber-reports"},
         publish = true,
         dryRun = false

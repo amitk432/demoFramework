@@ -1,4 +1,4 @@
-name: Java CI with Maven (Headless UI)
+name: 🧪 Java UI Automation (Headless CI)
 
 on:
   push:
@@ -7,20 +7,25 @@ on:
     branches: [ "master" ]
 
 jobs:
-  build:
+  build-test:
     runs-on: ubuntu-latest
+    timeout-minutes: 30  # Prevent runaway jobs
 
     steps:
-      - uses: actions/checkout@v4
+      # ✅ Step 1: Fetch repo
+      - name: Checkout source
+        uses: actions/checkout@v4
 
-      - name: Set up JDK 17
+      # ✅ Step 2: Set up Java environment (use same LTS as developers)
+      - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
-          java-version: '17'
+          java-version: '21'            # Matches pom.xml compiler version
           distribution: 'temurin'
           cache: maven
 
-      - name: Install Google Chrome
+      # ✅ Step 3: Install Chrome browser (headless compatible)
+      - name: Install Google Chrome Stable
         run: |
           sudo apt-get update
           sudo apt-get install -y wget gnupg2
@@ -28,9 +33,22 @@ jobs:
           echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee /etc/apt/sources.list.d/google-chrome.list
           sudo apt-get update
           sudo apt-get install -y google-chrome-stable
+          google-chrome --version
 
-      - name: Build & Test (Headless)
-        run: mvn clean test -Dheadless=true
+      # ✅ Step 4: Build & run UI tests in headless mode
+      - name: Build and Test (Headless)
+        env:
+          HEADLESS: "true"
+        run: mvn -B clean test -Dheadless=true
 
-      - name: Update dependency graph
+      # ✅ Step 5: Archive reports for later inspection
+      - name: Upload Test Reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-output
+          path: test-output/
+
+      # ✅ Step 6: Optional dependency graph for GitHub Advanced Security
+      - name: Submit dependency graph
         uses: advanced-security/maven-dependency-submission-action@v4

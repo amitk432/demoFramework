@@ -25,6 +25,15 @@ public class BasePage {
         return driver.getCurrentUrl();
     }
 
+    /**
+     * Properly-cased convenience method so callers using getCurrentUrl() compile.
+     * The project previously had a method named getcurrentUrl() (lowercase 'c'),
+     * which caused a compile error because Java is case-sensitive.
+     */
+    public String getCurrentUrl() {
+        return getcurrentUrl();
+    }
+
     public String getText(WebElement element) {
         return element.getText();
     }

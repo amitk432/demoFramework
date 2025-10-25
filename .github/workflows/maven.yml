@@ -7,24 +7,40 @@ on:
     branches: [ "master" ]
 
 jobs:
-  build-test:
+  # Fast build job for quick, green feedback (skips running tests)
+  build:
     runs-on: ubuntu-latest
-    timeout-minutes: 30  # Prevent runaway jobs
-
+    timeout-minutes: 20
     steps:
-      # ✅ Step 1: Fetch repo
       - name: Checkout source
         uses: actions/checkout@v4
 
-      # ✅ Step 2: Set up Java environment (use same LTS as developers)
       - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
-          java-version: '21'            # Matches pom.xml compiler version
+          java-version: '21'
           distribution: 'temurin'
           cache: maven
 
-      # ✅ Step 3: Install Chrome browser (headless compatible)
+      - name: Build (skip tests)
+        run: mvn -B -DskipTests clean package
+
+  # Full test job (runs after build). Installs Chrome and executes tests in headless mode.
+  test:
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: maven
+
       - name: Install Google Chrome Stable
         run: |
           sudo apt-get update
@@ -35,13 +51,11 @@ jobs:
           sudo apt-get install -y google-chrome-stable
           google-chrome --version
 
-      # ✅ Step 4: Build & run UI tests in headless mode
       - name: Build and Test (Headless)
         env:
           HEADLESS: "true"
         run: mvn -B clean test -Dheadless=true
 
-      # ✅ Step 5: Archive reports for later inspection
       - name: Upload Test Reports
         if: always()
         uses: actions/upload-artifact@v4
@@ -49,6 +63,5 @@ jobs:
           name: test-output
           path: test-output/
 
-      # ✅ Step 6: Optional dependency graph for GitHub Advanced Security
       - name: Submit dependency graph
         uses: advanced-security/maven-dependency-submission-action@v4
